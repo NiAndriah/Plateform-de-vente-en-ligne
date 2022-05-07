@@ -2,8 +2,11 @@ import { faShoppingCart, faShoppingBag } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../lib/actions';
 
-export const Navbar = ( {filerResults, setFiltering, count} ) => {
+export const Navbar = ( {filterResults, setFiltering} ) => {
+    const items = useSelector(state => state.items)
     return(
         <nav className="navbar navbar-light bg-orange">
             <div className="container-fluid">
@@ -15,16 +18,16 @@ export const Navbar = ( {filerResults, setFiltering, count} ) => {
                 <form className="d-flex">
                     <input className="form-control" type="search" aria-label="Search" placeholder="Recherche"
                     onChange={
-                        (e) => {
+                        e => {
                             setFiltering(e.target.value.length > 0);
-                            filerResults(e.target.value);
+                            filterResults(e.target.value);
                         }
                     }
                     />
                     <Link to="/cart">
                         <FontAwesomeIcon icon={faShoppingBag} className="iconRight fa-2x"/>
                     </Link>
-                    <span className='badge rounded-pill bg-success'>{count}</span>
+                    <span className='badge rounded-pill bg-success'>{items.length>0 && items.length}</span>
                 </form>
             </div>
         </nav>
@@ -45,16 +48,16 @@ export const SideMenu = ( {loadCategory, category} ) => {
   }
 
 export const List = props => {
-    const { data, addToCart, count } = props
+    const { data } = props
     return(
         <div className="row">
-            {data.map(item => <Card key={item.ref} item={ item } addToCart={addToCart} count={count}/>)}
+            {data.map(item => <Card key={item.ref} item={ item }/>)}
         </div>
     );
 }
 
 export const Card = props => {
-    const { item, addToCart, count } = props
+    const { item } = props
     return(
         <div className="col-sm-4">
             <div className="card">
@@ -78,13 +81,17 @@ export const Card = props => {
                     </div>
                 </div>
             </div>
-            <Modal item={item} addToCart={addToCart} count={count}/>
+            <Modal item={item}/>
         </div>
     );
 }
 
-export const Modal = ({ item, count, addToCart }) => {
+export const Modal = ({ item }) => {
     const [qty, setQty] = useState(1);
+    const dispatch = useDispatch();
+    const add = (item, quantity) => {
+        dispatch(addToCart(item, quantity));
+    }
     return(
         <div
             className="modal fade"
@@ -92,7 +99,6 @@ export const Modal = ({ item, count, addToCart }) => {
             data-backdrop = "static"
             tabindex="-1"
             role="dialog"
-            aria-aria-labelledby="staticBackdropLabel"
             aria-hidden="true"
         >
             <div className="modal-dialog modal-xl" role="document">
@@ -154,15 +160,15 @@ export const Modal = ({ item, count, addToCart }) => {
                             className="btn btn-secondary"
                             data-bs-dismiss="modal"
                         >
-                            Fermer
+                            Close
                         </button>
                         <button 
                             type="button"
                             className="btn btn-success"
                             data-bs-dismiss="modal"
-                            onClick={()=>addToCart(count+1)}
+                            onClick={ ()=> add(item, qty) }
                         >
-                            Ajouter au panier
+                            Add to Cart
                         </button>
                     </div>
                 </div>   

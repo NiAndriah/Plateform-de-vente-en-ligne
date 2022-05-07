@@ -42,3 +42,35 @@
 .active {
     font-weight: bold;
 }
+/*cart*/
+.body {
+    margin-top: 6em;
+}
+.flex {
+    list-style: none;
+    border: 0.5px solid #808080;
+    padding: 0px;
+    margin-top: 30px;
+    clear: both;
+}
+.flex .text-left {
+    float: left;
+}
+.flex .text-right {
+    float: right;
+}
+.flex .coupon {
+    margin-top: 10px;
+}
+.coupon {
+    color: crimson;
+    padding-bottom: 5px;
+}
+table tr td .remove {
+    border-radius: 100%;
+}
+.checkButton {
+    margin: 50px 0px 0px 25px;
+    padding: 10px 50px;
+    line-height: 10px;
+}

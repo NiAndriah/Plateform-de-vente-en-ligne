@@ -1,13 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Navbar } from '../components';
-import { list } from '../components/data';
-import { Home } from './home';
-import { Cart } from './cart';
+import { Navbar } from '../../components';
+import { list } from '../../components/data';
+import { Home } from './home'; 
+import { CartPage } from './cart';
 
-const App = () => {
+const App = props => {
   const [category, setCategory] = useState(0);
-  const [count, setCount] = useState(1);
   const [isFiltering, setFiltering] = useState(false);
   const [Filtered, setFiltered] = useState(false);
   const loadCategory = (i) => {
@@ -28,18 +27,16 @@ const App = () => {
   return(
     <Fragment>
       <Router>
-        <Navbar filterResults={filterResults} setFiltering={setFiltering} count={count} />
+        <Navbar filterResults={filterResults} setFiltering={setFiltering}/>
         <Switch>
           <Route exact path='/' component={() => <Home 
                 category={category} 
                 loadCategory={loadCategory} 
-                addToCart={setCount} 
-                count={count}
                 list={list}
                 isFiltering={isFiltering}
                 Filtered={Filtered}/>
               }/>
-          <Route path='/cart' component={Cart}/>
+          <Route path='/cart' component={CartPage}/>
         </Switch>
       </Router>
     </Fragment>
