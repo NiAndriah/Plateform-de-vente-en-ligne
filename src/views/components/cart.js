@@ -8,12 +8,16 @@ const Row = props => {
     const item = details;
     const [qty, setQty] = useState(quantity);
     const dispatch = useDispatch()
-    const update = (item, quantity) => {
-        dispatch(updateToCart(item, quantity))
+    const update = action => {
+        if (action === 'decrement') setQty(qty>1? qty-1: qty);
+        if (action === 'increment') setQty(qty+1);
     }
     const remove = (id) => {
         dispatch(removeFromCart(id));
     }
+    useEffect(()=>{
+        dispatch(updateToCart(id, qty))
+    }, [dispatch, id, qty])
     return(
         <tr>
             <td>
@@ -31,8 +35,7 @@ const Row = props => {
                     type="button"
                     className="btn btn-secondary"
                     onClick={()=>{
-                            setQty(qty>1? qty-1: qty);
-                            update(item, qty);
+                            update('decrement');
                         }
                     }
                 >
@@ -43,8 +46,7 @@ const Row = props => {
                     type="button"
                     className="btn btn-secondary"
                     onClick={()=>{
-                            setQty(qty+1);
-                            update(item, qty);
+                            update('increment');
                         }
                     }
                 >
@@ -93,7 +95,7 @@ export const CartPage = () => {
         })
         setSubTotal(totals.reduce((item1, item2) => item1 + item2, 0));
         setTotal(subTotal + shipping);
-    })
+    }, [items, subTotal, total])
     return(
         <Fragment>
             <body className="body">
@@ -121,17 +123,16 @@ export const CartPage = () => {
                                     </ul>
                                     <ul className="flex">
                                         <li className="text-left">Total</li>
-                                        <li className="text-right">€{total.toFixed(2)}</li>
+                                        <li className="text-right">€{subTotal>0 ? total.toFixed(2) : "0.00"}</li>
                                     </ul>
-                                    <button 
-                                        type="button"
-                                        className="checkButton"
-                                        disabled="true"
-                                        >
-                                        <Link to="/cart" className="link white">
-                                            Checkout
-                                        </Link>
-                                    </button>
+                                </li>
+                                <li className="list-group-item">
+                                    <Link to="/checkout" 
+                                        className="link"
+                                        disabled={!items.length}
+                                    >
+                                        Checkout
+                                    </Link>    
                                 </li>
                             </ul>
                         </div>

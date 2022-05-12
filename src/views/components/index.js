@@ -4,8 +4,10 @@ import { Navbar } from '../../components';
 import { list } from '../../components/data';
 import { Home } from './home'; 
 import { CartPage } from './cart';
+import { Checkout } from './checkout';
 
 const App = props => {
+  const { items, saveToLocalStorage } = props;
   const [category, setCategory] = useState(0);
   const [isFiltering, setFiltering] = useState(false);
   const [Filtered, setFiltered] = useState(false);
@@ -22,8 +24,8 @@ const App = props => {
       setFiltered(results);
   }
   useEffect(()=> {
-      console.log(isFiltering);
-  });
+      saveToLocalStorage(items);
+  }, [items]);
   return(
     <Fragment>
       <Router>
@@ -37,6 +39,7 @@ const App = props => {
                 Filtered={Filtered}/>
               }/>
           <Route path='/cart' component={CartPage}/>
+          <Route path='/checkout' component={Checkout}/>
         </Switch>
       </Router>
     </Fragment>
