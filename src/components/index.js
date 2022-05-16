@@ -25,7 +25,7 @@ export const Navbar = ( {filterResults, setFiltering} ) => {
                     }
                     />
                     <Link to="/cart">
-                        <FontAwesomeIcon icon={faShoppingBag} className="iconRight fa-2x"/>
+                        <FontAwesomeIcon icon={faShoppingBag} className="iconCartRight fa-2x"/>
                     </Link>
                     <span className='badge rounded-pill bg-success'>{items.length>0 && items.length}</span>
                 </form>

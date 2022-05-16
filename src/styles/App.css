@@ -8,7 +8,7 @@
     font-weight: bold;
     letter-spacing: 0px;
 }
-.iconRight {
+.iconCartRight {
     margin-left: 10px;
     color: rgb(77, 77, 77);
 }
@@ -43,7 +43,7 @@
     font-weight: bold;
 }
 /*cart*/
-.body {
+.cart {
     margin-top: 6em;
 }
 .flex {
@@ -68,4 +68,17 @@
 }
 table tr td .remove {
     border-radius: 100%;
+}
+.text {
+    color: #808080;
+}
+/*Confirm*/
+.confirm {
+    margin: 3em 0px;
+}
+.list {
+    list-style-type: none;
+}
+.iconTruck {
+    color: rgb(77, 77, 77);   
 }

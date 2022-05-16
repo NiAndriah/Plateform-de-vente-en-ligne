@@ -98,7 +98,7 @@ export const CartPage = () => {
     }, [items, subTotal, total])
     return(
         <Fragment>
-            <body className="body">
+            <body className="cart">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm">
@@ -128,8 +128,7 @@ export const CartPage = () => {
                                 </li>
                                 <li className="list-group-item">
                                     <Link to="/checkout" 
-                                        className="link"
-                                        disabled={!items.length}
+                                        className={`btn ${!items.length && "disabled"}`}
                                     >
                                         Checkout
                                     </Link>    

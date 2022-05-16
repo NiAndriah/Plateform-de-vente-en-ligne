@@ -5,6 +5,8 @@ import { list } from '../../components/data';
 import { Home } from './home'; 
 import { CartPage } from './cart';
 import { Checkout } from './checkout';
+import { Confirm } from './confirm';
+import UserProfilContextProvider from '../../lib/userProfilContext';
 
 const App = props => {
   const { items, saveToLocalStorage } = props;
@@ -25,22 +27,25 @@ const App = props => {
   }
   useEffect(()=> {
       saveToLocalStorage(items);
-  }, [items]);
+  }, [saveToLocalStorage, items]);
   return(
     <Fragment>
       <Router>
         <Navbar filterResults={filterResults} setFiltering={setFiltering}/>
-        <Switch>
-          <Route exact path='/' component={() => <Home 
-                category={category} 
-                loadCategory={loadCategory} 
-                list={list}
-                isFiltering={isFiltering}
-                Filtered={Filtered}/>
-              }/>
-          <Route path='/cart' component={CartPage}/>
-          <Route path='/checkout' component={Checkout}/>
-        </Switch>
+        <UserProfilContextProvider>
+          <Switch>
+            <Route exact path='/' component={() => <Home 
+                  category={category} 
+                  loadCategory={loadCategory} 
+                  list={list}
+                  isFiltering={isFiltering}
+                  Filtered={Filtered}/>
+                }/>
+            <Route path='/cart' component={CartPage}/>
+            <Route path='/checkout' component={Checkout}/>
+            <Route path='/delivery' component={Confirm}/>
+          </Switch>
+        </UserProfilContextProvider>
       </Router>
     </Fragment>
   );
